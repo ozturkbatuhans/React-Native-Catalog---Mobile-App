@@ -43,15 +43,16 @@ export default function DetailScreen() {
     );
   }
 
-  const img = data?.thumbnail || (data?.images?.length ? data.images[0] : undefined);
+  
+  const img = (data?.images?.length ? data.images[0] : data?.thumbnail) || undefined;
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      {img ? <Image source={{ uri: img }} style={styles.image} /> : null}
+      {img ? <Image source={{ uri: img }} style={styles.image} resizeMode="cover" /> : null}
       <Text style={styles.title}>{data.title}</Text>
       <Text style={styles.meta}>€ {data.price} · ★ {data.rating} · {data.category}</Text>
       <Text style={styles.desc}>{data.description}</Text>
-      {/* 4+ alan: title, price, rating, description, image (+category) */}
+      
     </ScrollView>
   );
 }
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
   center: { flex: 1, alignItems: "center", justifyContent: "center", padding: 16 },
   subtle: { fontSize: 14, color: "gray", marginTop: 8 },
   error: { color: "crimson", fontSize: 16 },
-  image: { width: "100%", height: 240, borderRadius: 8, marginBottom: 12, backgroundColor: "#eee" },
+  image: { width: "100%", height: 280, borderRadius: 12, marginBottom: 12, backgroundColor: "#eee" },
   title: { fontSize: 22, fontWeight: "600" },
   meta: { fontSize: 14, color: "gray", marginTop: 6 },
   desc: { fontSize: 15, lineHeight: 22, marginTop: 12 },

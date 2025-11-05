@@ -57,14 +57,14 @@ export default function HomeScreen({ navigation }) {
         data={data}
         category={category}
         onCategoryChange={setCategory}
-        inStockOnly={inStockOnly}
-        onToggleStock={setInStockOnly}
+        inStockOnly={!!inStockOnly}
+        onToggleStock={(v) => setInStockOnly(!!v)}
       />
 
       <FlashList
         data={visibleData}
         keyExtractor={(item) => String(item.id)}
-        estimatedItemSize={80}
+        estimatedItemSize={72}
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.row}

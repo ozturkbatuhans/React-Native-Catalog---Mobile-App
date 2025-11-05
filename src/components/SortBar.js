@@ -34,7 +34,7 @@ export default function SortBar({ sortKey, onChange }) {
 }
 
 const styles = StyleSheet.create({
-  row: { flexDirection: "row", alignItems: "center", paddingHorizontal: 16, gap: 8, paddingBottom: 8 },
+  row: { flexDirection: "row", alignItems: "center", paddingHorizontal: 16, columnGap: 8, paddingBottom: 8 },
   label: { marginRight: 8, fontWeight: "600" },
   btn: { paddingHorizontal: 10, paddingVertical: 6, borderWidth: 1, borderColor: "#ddd", borderRadius: 8 },
   btnActive: { backgroundColor: "#111", borderColor: "#111" },

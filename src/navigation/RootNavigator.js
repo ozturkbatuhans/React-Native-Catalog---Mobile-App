@@ -12,7 +12,7 @@ const Stack = createNativeStackNavigator();
 
 function HomeStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: true }}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Detail" component={DetailScreen} />
     </Stack.Navigator>
@@ -22,8 +22,12 @@ function HomeStack() {
 export default function RootNavigator() {
   return (
     <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="HomeTab" component={HomeStack} options={{ title: "Home" }} />
+      <Tab.Navigator screenOptions={{ headerShown: true }}>
+        <Tab.Screen
+          name="HomeTab"
+          component={HomeStack}
+          options={{ title: "Home", tabBarShowLabel: true }}
+        />
         <Tab.Screen name="Profile" component={ProfileScreen} />
       </Tab.Navigator>
     </NavigationContainer>

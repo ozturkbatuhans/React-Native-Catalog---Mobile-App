@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 
 export function useProducts() {
-  const [data, setData] = useState([]);       
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const abortRef = useRef(null);
@@ -14,8 +14,6 @@ export function useProducts() {
       try {
         setLoading(true);
         setError(null);
-        
-        // DummyJSON: list endpoint (limit high genoeg)
         const res = await fetch("https://dummyjson.com/products?limit=100", {
           signal: abortRef.current.signal,
         });
@@ -27,7 +25,7 @@ export function useProducts() {
         if (e.name !== "AbortError") {
           console.log("[useProducts] fetch error:", e.message);
           setError(e);
-          setData([]); 
+          setData([]);
         }
       } finally {
         setLoading(false);
@@ -43,6 +41,5 @@ export function useProducts() {
   }, []);
 
   const isEmpty = !loading && !error && data.length === 0;
-
   return { data, loading, error, isEmpty };
 }

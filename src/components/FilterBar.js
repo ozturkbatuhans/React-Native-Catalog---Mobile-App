@@ -12,10 +12,10 @@ export default function FilterBar({ data, category, onCategoryChange, inStockOnl
     <View style={styles.container}>
       <View style={styles.row}>
         <Text style={styles.label}>In stock only</Text>
-        <Switch value={inStockOnly} onValueChange={onToggleStock} />
+        <Switch value={!!inStockOnly} onValueChange={(v) => onToggleStock(!!v)} />
       </View>
 
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.catRow}>
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={styles.catRow}>
         {categories.map((c) => {
           const active = c === category;
           return (
