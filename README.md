@@ -83,7 +83,7 @@ of open de webversie via http://localhost:8081.
 De **zoekbalk** filtert live op titel (*case-insensitive*).  
 De filter gebeurt lokaal in de component via `useMemo()` zodat het efficiënt blijft:
 
-```js
+```
 const filtered = data.filter(p =>
   p.title.toLowerCase().includes(query.toLowerCase())
 );
@@ -94,4 +94,30 @@ Er zijn drie sorteeropties voorzien:
 -Rating ↓ (hoog naar laag) (standaard)
 -Prijs ↑ (laag naar hoog)*
 -Prijs ↓ (hoog naar laag)*
+
+De logica bevindt zich in utils/sorting.js:
+```
+switch (sortKey) {
+  case SORT_KEYS.PRICE_ASC:
+    return arr.sort((a, b) => a.price - b.price);
+  case SORT_KEYS.PRICE_DESC:
+    return arr.sort((a, b) => b.price - a.price);
+  default:
+    return arr.sort((a, b) => b.rating - a.rating);
+}
+```
+
+### Technische keuzes
+
+1. Projectstart: npx create-expo-app --template blank
+
+2. Geen folder-based routing, enkel manuele navigatie met @react-navigation/native
+
+3. Geen TypeScript, enkel JSX
+
+4. Geen externe UI libraries
+
+5. Gebruik van FlashList i.p.v. FlatList voor performantie
+
+6. .gitignore bevat node_modules/, build-cache en lokale Expo-artefacten
 
