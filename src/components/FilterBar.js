@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   container: { paddingHorizontal: 16, paddingBottom: 8 },
   row: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginBottom: 8 },
   label: { fontWeight: "600" },
-  catRow: { gap: 8 },
+  catRow: { columnGap: 8 },
   catChip: { borderWidth: 1, borderColor: "#ddd", borderRadius: 16, paddingHorizontal: 12, paddingVertical: 6 },
   catChipActive: { backgroundColor: "#111", borderColor: "#111" },
   catText: { fontSize: 13, color: "#111" },
