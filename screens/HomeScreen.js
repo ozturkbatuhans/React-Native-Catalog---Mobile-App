@@ -1,15 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from "react-native";
 import { FlashList } from "@shopify/flash-list";
 import { useProducts } from "../hooks/useProducts";
+import SearchBar from "../components/SearchBar";
+import SortBar from "../components/SortBar";
+import FilterBar from "../components/FilterBar";
+import { applySort, SORT_KEYS } from "../utils/sorting";
+import { applyFilter } from "../utils/filtering";
 
 export default function HomeScreen({ navigation }) {
   const { data, loading, error, isEmpty } = useProducts();
+
+  const [query, setQuery] = useState("");
+  const [sortKey, setSortKey] = useState(SORT_KEYS.RATING_DESC);
+  const [inStockOnly, setInStockOnly] = useState(false);
+  const [category, setCategory] = useState("All");
 
   useEffect(() => {
     console.log("HomeScreen mounted");
     return () => console.log("HomeScreen unmounted");
   }, []);
+
+  const visibleData = useMemo(() => {
+    const filtered = applyFilter(data, { query, inStockOnly, category });
+    return applySort(filtered, sortKey);
+  }, [data, query, inStockOnly, category, sortKey]);
 
   if (loading) {
     return (
@@ -19,7 +34,6 @@ export default function HomeScreen({ navigation }) {
       </View>
     );
   }
-
   if (error) {
     return (
       <View style={styles.center}>
@@ -27,7 +41,6 @@ export default function HomeScreen({ navigation }) {
       </View>
     );
   }
-
   if (isEmpty) {
     return (
       <View style={styles.center}>
@@ -38,8 +51,18 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <FlashList
+      <SearchBar value={query} onChange={setQuery} />
+      <SortBar sortKey={sortKey} onChange={setSortKey} />
+      <FilterBar
         data={data}
+        category={category}
+        onCategoryChange={setCategory}
+        inStockOnly={inStockOnly}
+        onToggleStock={setInStockOnly}
+      />
+
+      <FlashList
+        data={visibleData}
         keyExtractor={(item) => String(item.id)}
         estimatedItemSize={80}
         renderItem={({ item }) => (
@@ -48,12 +71,10 @@ export default function HomeScreen({ navigation }) {
             onPress={() => navigation.navigate("Detail", { id: item.id })}
           >
             <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.meta}>€ {item.price} · ★ {item.rating}</Text>
+            <Text style={styles.meta}>€ {item.price} · ★ {item.rating} · {item.category}</Text>
           </TouchableOpacity>
         )}
-        ListHeaderComponent={
-          <Text style={styles.header}>Products</Text>
-        }
+        ListHeaderComponent={<Text style={styles.header}>Products ({visibleData.length})</Text>}
         ItemSeparatorComponent={() => <View style={styles.sep} />}
       />
     </View>
