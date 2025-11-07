@@ -1,12 +1,14 @@
 # React Native Catalog — Mobile App
+> Een kleine productcatalogus-app met navigatie, API-integratie en performantielijsten via FlashList.  
 > Examenopdracht – Mobile Application 1  
 > Graduaat Programmeren
 
 ---
 
 ## Doel van het project
-Deze mobiele applicatie is een kleine **productcatalogus-app** gebouwd met **Expo (React Native)**.  
-De app toont dat ik de basisprincipes van **Tabs + Stack navigatie**, **FlashList**, **API-calls**, en **zoeken / sorteren** correct begrijp en kan toepassen.
+Een moderne mobiele applicatie ontwikkeld met **React Native (Expo)**.  
+De app toont een lijst van producten via een publieke API en laat gebruikers **zoeken, sorteren en filteren**.  
+Het project demonstreert het gebruik van **Tabs + Stack navigatie**, **FlashList**, en **data-fetching met hooks**.
 
 ---
 
@@ -18,6 +20,8 @@ src/
  ├── navigation/       # RootNavigator (Tabs + Stack)
  ├── screens/          # Home, Detail, Profile
  └── utils/            # sorting.js & filtering.js
+
+ assets/                # Afbeeldingen en iconen
 ```
 
 
@@ -47,7 +51,8 @@ src/
 | **Lijst van producten** | `https://dummyjson.com/products?limit=100` | Retourneert een array van productobjecten |
 | **Detail per product** | `https://dummyjson.com/products/{id}` | Bijvoorbeeld: `/products/5` |
 
-De API levert o.a. volgende velden: `id`, `title`, `price`, `rating`, `stock`, `category`, `description`, `thumbnail`, `images[]`.
+De API levert o.a. volgende velden:
+ `id`, `title`, `price`, `rating`, `stock`, `category`, `description`, `thumbnail`, `images[]`.
 
 ---
 
@@ -83,7 +88,7 @@ of open de webversie via http://localhost:8081.
 De **zoekbalk** filtert live op titel (*case-insensitive*).  
 De filter gebeurt lokaal in de component via `useMemo()` zodat het efficiënt blijft:
 
-```
+```js
 const filtered = data.filter(p =>
   p.title.toLowerCase().includes(query.toLowerCase())
 );
@@ -91,12 +96,13 @@ const filtered = data.filter(p =>
 
 ### Sorteren
 Er zijn drie sorteeropties voorzien:
--Rating ↓ (hoog naar laag) (standaard)
--Prijs ↑ (laag naar hoog)*
--Prijs ↓ (hoog naar laag)*
+- **Rating ↓** (hoog naar laag) *(standaard)*
+- **Prijs ↑** (laag naar hoog)*
+- **Prijs ↓** (hoog naar laag)*
+
 
 De logica bevindt zich in utils/sorting.js:
-```
+```js
 switch (sortKey) {
   case SORT_KEYS.PRICE_ASC:
     return arr.sort((a, b) => a.price - b.price);
@@ -107,7 +113,20 @@ switch (sortKey) {
 }
 ```
 
-### Technische keuzes
+### Filteren
+Een eenvoudige filter wordt toegepast:
+
+- **Toggle:** “In stock only” (`Switch` met boolean state)
+- **Categorie:** Dynamisch uit de API (`["All", ...uniqueCategories]`)
+
+```js
+useMemo(() => {
+  const filtered = applyFilter(data, { query, inStockOnly, category });
+  return applySort(filtered, sortKey);
+}, [data, query, inStockOnly, category, sortKey]);
+```
+
+## Technische keuzes
 
 1. Projectstart: npx create-expo-app --template blank
 
@@ -121,3 +140,22 @@ switch (sortKey) {
 
 6. .gitignore bevat node_modules/, build-cache en lokale Expo-artefacten
 
+## Voorbeeldschermen
+Home: Productenlijst met zoekbalk, sorteeropties en filters
+
+Detail: Productinfo (afbeelding, beschrijving, prijs, rating)
+
+Profile: Naam, bio, contact en avatar
+
+
+## Conceptuele samenvatting
+
+Deze applicatie toont begrip van:
+- Component-based architectuur
+- State management via `useState` en `useEffect`
+- Asynchrone data via Promises (`fetch` + `await`)
+- Navigatie met Tabs + Stack
+- Performantie-optimalisatie via `FlashList`
+- Lifecycle cleanup met `AbortController`
+
+---
