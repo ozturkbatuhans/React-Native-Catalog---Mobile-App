@@ -22,7 +22,7 @@ function HomeStack() {
 export default function RootNavigator() {
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions={{ headerShown: true }}>
+      <Tab.Navigator screenOptions={{ headerShown: false }}>
         <Tab.Screen
           name="HomeTab"
           component={HomeStack}
