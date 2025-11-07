@@ -34,6 +34,7 @@ export default function HomeScreen({ navigation }) {
       </View>
     );
   }
+
   if (error) {
     return (
       <View style={styles.center}>
@@ -41,6 +42,7 @@ export default function HomeScreen({ navigation }) {
       </View>
     );
   }
+
   if (isEmpty) {
     return (
       <View style={styles.center}>
@@ -57,8 +59,8 @@ export default function HomeScreen({ navigation }) {
         data={data}
         category={category}
         onCategoryChange={setCategory}
-        inStockOnly={!!inStockOnly}
-        onToggleStock={(v) => setInStockOnly(!!v)}
+        inStockOnly={inStockOnly}            
+        onToggleStock={setInStockOnly}
       />
 
       <FlashList
@@ -71,10 +73,21 @@ export default function HomeScreen({ navigation }) {
             onPress={() => navigation.navigate("Detail", { id: item.id })}
           >
             <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.meta}>€ {item.price} · ★ {item.rating} · {item.category}</Text>
+            <Text style={styles.meta}>
+              € {item.price} · ★ {item.rating} · {item.category}
+            </Text>
           </TouchableOpacity>
         )}
-        ListHeaderComponent={<Text style={styles.header}>Products ({visibleData.length})</Text>}
+        ListHeaderComponent={
+          <Text style={styles.header}>Products ({visibleData.length})</Text>
+        }
+        ListEmptyComponent={
+          <View style={styles.center}>
+            <Text style={styles.subtle}>
+              No results found. Try a different search or filter.
+            </Text>
+          </View>
+        }
         ItemSeparatorComponent={() => <View style={styles.sep} />}
       />
     </View>

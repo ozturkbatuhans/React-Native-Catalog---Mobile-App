@@ -2,7 +2,6 @@ import React, { useMemo } from "react";
 import { View, Text, StyleSheet, Switch, ScrollView, TouchableOpacity } from "react-native";
 
 export default function FilterBar({ data, category, onCategoryChange, inStockOnly, onToggleStock }) {
-  // derive categories from data
   const categories = useMemo(() => {
     const set = new Set(data.map((p) => p.category).filter(Boolean));
     return ["All", ...Array.from(set)];
@@ -12,10 +11,15 @@ export default function FilterBar({ data, category, onCategoryChange, inStockOnl
     <View style={styles.container}>
       <View style={styles.row}>
         <Text style={styles.label}>In stock only</Text>
-        <Switch value={!!inStockOnly} onValueChange={(v) => onToggleStock(!!v)} />
+        
+        <Switch value={inStockOnly} onValueChange={onToggleStock} />
       </View>
 
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={styles.catRow}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.catRow}
+      >
         {categories.map((c) => {
           const active = c === category;
           return (
