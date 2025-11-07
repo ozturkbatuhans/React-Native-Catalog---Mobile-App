@@ -20,6 +20,7 @@ export default function DetailScreen() {
       </View>
     );
   }
+
   if (loading) {
     return (
       <View style={styles.center}>
@@ -28,6 +29,7 @@ export default function DetailScreen() {
       </View>
     );
   }
+
   if (error) {
     return (
       <View style={styles.center}>
@@ -35,6 +37,7 @@ export default function DetailScreen() {
       </View>
     );
   }
+
   if (isEmpty) {
     return (
       <View style={styles.center}>
@@ -43,7 +46,7 @@ export default function DetailScreen() {
     );
   }
 
-  
+  // For quality image
   const img = (data?.images?.length ? data.images[0] : data?.thumbnail) || undefined;
 
   return (
@@ -52,7 +55,6 @@ export default function DetailScreen() {
       <Text style={styles.title}>{data.title}</Text>
       <Text style={styles.meta}>€ {data.price} · ★ {data.rating} · {data.category}</Text>
       <Text style={styles.desc}>{data.description}</Text>
-      
     </ScrollView>
   );
 }
