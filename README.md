@@ -66,7 +66,7 @@ De API levert o.a. volgende velden:
 
 ```bash
 # 1. Repository klonen
-git clone https://github.com/YOUR_USERNAME/React-Native-Catalog---Mobile-App.git
+git clone https://github.com/ozturkbatuhans/React-Native-Catalog---Mobile-App.git
 
 # 2. Dependencies installeren
 npm install
